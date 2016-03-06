@@ -1,8 +1,8 @@
-﻿CREATE TABLE [Hangfire.Schema] (
+﻿CREATE TABLE IF NOT EXISTS [Hangfire.Schema] (
         [Version]       integer NOT NULL
 
 );
-CREATE TABLE [Hangfire.Job] (
+CREATE TABLE IF NOT EXISTS [Hangfire.Job] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [StateId]       integer,
         [StateName]     nvarchar(20) COLLATE NOCASE,
@@ -18,7 +18,7 @@ ON [Hangfire.Job]
 CREATE INDEX [Job_IX_HangFire_Job_StateName]
 ON [Hangfire.Job]
 ([StateName] DESC);
-CREATE TABLE [Hangfire.State] (
+CREATE TABLE IF NOT EXISTS [Hangfire.State] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [JobId] integer NOT NULL,
         [Name]  nvarchar(20) NOT NULL COLLATE NOCASE,
@@ -32,7 +32,7 @@ CREATE TABLE [Hangfire.State] (
 CREATE INDEX [State_IX_HangFire_State_JobId]
 ON [Hangfire.State]
 ([JobId] DESC);
-CREATE TABLE [Hangfire.JobParameter] (
+CREATE TABLE IF NOT EXISTS [Hangfire.JobParameter] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [JobId] integer NOT NULL,
         [Name]  nvarchar(40) NOT NULL COLLATE NOCASE,
@@ -44,7 +44,7 @@ CREATE TABLE [Hangfire.JobParameter] (
 CREATE INDEX [JobParameter_IX_HangFire_JobParameter_JobIdAndName]
 ON [Hangfire.JobParameter]
 ([JobId] DESC, [Name] DESC);
-CREATE TABLE [Hangfire.JobQueue] (
+CREATE TABLE IF NOT EXISTS [Hangfire.JobQueue] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [JobId] integer NOT NULL,
         [Queue] nvarchar(20) NOT NULL COLLATE NOCASE,
@@ -54,13 +54,13 @@ CREATE TABLE [Hangfire.JobQueue] (
 CREATE INDEX [JobQueue_IX_HangFire_JobQueue_QueueAndFetchedAt]
 ON [Hangfire.JobQueue]
 ([Queue] DESC, [FetchedAt] DESC);
-CREATE TABLE [Hangfire.Server] (
+CREATE TABLE IF NOT EXISTS [Hangfire.Server] (
         [Id]    nvarchar(50) PRIMARY KEY NOT NULL COLLATE NOCASE,
         [Data]  nvarchar COLLATE NOCASE,
         [LastHeartbeat] datetime NOT NULL
 
 );
-CREATE TABLE [Hangfire.List] (
+CREATE TABLE IF NOT EXISTS [Hangfire.List] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [Key]   nvarchar(100) NOT NULL COLLATE NOCASE,
         [Value] nvarchar COLLATE NOCASE,
@@ -73,7 +73,7 @@ ON [Hangfire.List]
 CREATE INDEX [List_IX_HangFire_List_Key]
 ON [Hangfire.List]
 ([Key] DESC);
-CREATE TABLE [Hangfire.Set] (
+CREATE TABLE IF NOT EXISTS [Hangfire.Set] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [Key]   nvarchar(100) NOT NULL COLLATE NOCASE,
         [Score] float NOT NULL,
@@ -90,7 +90,7 @@ ON [Hangfire.Set]
 CREATE UNIQUE INDEX [Set_UX_HangFire_Set_KeyAndValue]
 ON [Hangfire.Set]
 ([Key] DESC, [Value] DESC);
-CREATE TABLE [Hangfire.Counter] (
+CREATE TABLE IF NOT EXISTS [Hangfire.Counter] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [Key]   nvarchar(100) NOT NULL COLLATE NOCASE,
         [Value] smallint NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE [Hangfire.Counter] (
 CREATE INDEX [Counter_IX_HangFire_Counter_Key]
 ON [Hangfire.Counter]
 ([Key] DESC);
-CREATE TABLE [Hangfire.Hash] (
+CREATE TABLE IF NOT EXISTS [Hangfire.Hash] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [Key]   nvarchar(100) NOT NULL COLLATE NOCASE,
         [Field] nvarchar(100) NOT NULL COLLATE NOCASE,
@@ -117,7 +117,7 @@ ON [Hangfire.Hash]
 CREATE UNIQUE INDEX [Hash_UX_HangFire_Hash_Key_Field]
 ON [Hangfire.Hash]
 ([Key] DESC, [Field] DESC);
-CREATE TABLE [Hangfire.AggregatedCounter] (
+CREATE TABLE IF NOT EXISTS [Hangfire.AggregatedCounter] (
         [Id]    INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         [Key]   nvarchar(100) NOT NULL COLLATE NOCASE,
         [Value] integer NOT NULL,
